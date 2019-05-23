@@ -2,22 +2,26 @@
   "name": "react-boilerplate",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "react": "16.8.6",
-    "react-dom": "16.8.6",
-    "react-scripts": "3.0.1",
-    "axios": "0.18.0",
-    "prop-types": "15.7.2",
-    "@material-ui/core": "3.9.3",
-    "@material-ui/icons": "3.0.2",
-    "@material-ui/styles": "3.0.0-alpha.10",
-    "react-router-dom": "5.0.0"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "build:staging": "env-cmd -f .env.staging yarn build",
+    "build:production": "env-cmd -f .env.production yarn build",
+    "deploy:staging": "yarn build:staging && aws --profile inova s3 sync build s3://<PUT_STAGING_BUCKET_NAME>",
+    "deploy:production": "yarn build:production && aws --profile inova s3 sync build s3://<PUT_BUCKET_NAME>",
     "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "@material-ui/core": "3.9.3",
+    "@material-ui/icons": "3.0.2",
+    "@material-ui/styles": "3.0.0-alpha.10",
+    "axios": "0.18.0",
+    "prop-types": "15.7.2",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-router-dom": "5.0.0",
+    "react-scripts": "3.0.1"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -35,6 +39,7 @@
     ]
   },
   "devDependencies": {
+    "env-cmd": "9.0.1",
     "eslint": "5.16.0",
     "eslint-config-airbnb": "17.1.0",
     "eslint-plugin-import": "2.17.2",
