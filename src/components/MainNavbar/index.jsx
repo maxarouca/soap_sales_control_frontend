@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import { Link } from 'react-router-dom'
 
 import {
   AppBar,
@@ -52,19 +53,19 @@ class MainNavbar extends React.Component {
         onClose={this.handleMenuClose}
       >
         <MenuItem onClick={this.handleMenuClose}>
-          <a style={{ textDecoration: 'none' }} href="/consult_operator">
+          <Link style={{ textDecoration: 'none' }} to="/consult_operator">
             Operador
-          </a>
+          </Link>
         </MenuItem>
         <MenuItem onClick={this.handleMenuClose}>
-          <a style={{ textDecoration: 'none' }} href="/consult_plate">
+          <Link style={{ textDecoration: 'none' }} to="/consult_plate">
             Placa
-          </a>
+          </Link>
         </MenuItem>
         <MenuItem onClick={this.handleMenuClose}>
-          <a style={{ textDecoration: 'none' }} href="/consult_container">
+          <Link style={{ textDecoration: 'none' }} to="/consult_container">
             Container
-          </a>
+          </Link>
         </MenuItem>
       </Menu>
     )
@@ -74,7 +75,11 @@ class MainNavbar extends React.Component {
         <AppBar position="static" style={{ backgroundColor: '#CB184B' }}>
           <Toolbar>
             <div className={classes.sectionMobile}>
-              <IconButton aria-haspopup="true" onClick={() => {}} color="inherit">
+              <IconButton
+                aria-haspopup="true"
+                onClick={() => {}}
+                color="inherit"
+              >
                 <MoreIcon />
               </IconButton>
             </div>
@@ -85,7 +90,12 @@ class MainNavbar extends React.Component {
                 src="assets/images/logos/inova_white.svg"
                 alt="logo"
               />
-              <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+              <Typography
+                className={classes.title}
+                variant="h6"
+                color="inherit"
+                noWrap
+              >
                 Boilerplate
               </Typography>
             </div>
@@ -94,9 +104,12 @@ class MainNavbar extends React.Component {
               <ul className={classes.listNav}>
                 <li className={classes.listNavItem}>
                   <Typography color="inherit">
-                    <a style={{ textDecoration: 'none', color: '#ffffff' }} href="/">
+                    <Link
+                      style={{ textDecoration: 'none', color: '#ffffff' }}
+                      to="/"
+                    >
                       DASHBOARD
-                    </a>
+                    </Link>
                   </Typography>
                   <div className={classes.listNavItemSep} />
                   <Assessment />
@@ -104,9 +117,12 @@ class MainNavbar extends React.Component {
 
                 <li className={classes.listNavItem}>
                   <Typography color="inherit">
-                    <a style={{ textDecoration: 'none', color: '#ffffff' }} href="/containers_list">
+                    <Link
+                      style={{ textDecoration: 'none', color: '#ffffff' }}
+                      to="/containers_list"
+                    >
                       LISTAR CONTAINERS
-                    </a>
+                    </Link>
                   </Typography>
                   <div className={classes.listNavItemSep} />
                   <Dns />
@@ -114,19 +130,22 @@ class MainNavbar extends React.Component {
 
                 <li className={classes.listNavItem}>
                   <Typography color="inherit">
-                    <a
+                    <Link
                       style={{ textDecoration: 'none', color: '#ffffff' }}
-                      href="/analyze_container"
+                      to="/analyze_container"
                     >
                       ANALISAR
-                    </a>
+                    </Link>
                   </Typography>
                   <div className={classes.listNavItemSep} />
                   <CheckCircle />
                 </li>
 
                 <li className={classes.listNavItem}>
-                  <Typography onClick={this.handleProfileMenuOpen} color="inherit">
+                  <Typography
+                    onClick={this.handleProfileMenuOpen}
+                    color="inherit"
+                  >
                     CONSULTAR
                   </Typography>
                   <div className={classes.listNavItemSep} />
