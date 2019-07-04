@@ -19,6 +19,8 @@
   "rules": {
     "import/prefer-default-export": "off",
     "max-len": "off",
-    "semi": ["error", "never"]
+    "semi": ["error", "never"],
+    "react/prop-types": "off",
+    "react/destructuring-assignment": "off"
   }
 }
