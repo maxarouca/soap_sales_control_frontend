@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React from 'react'
 
 import {
   Grid,
@@ -11,15 +11,15 @@ import {
   ListItem,
   List,
   Typography,
-} from '@material-ui/core';
-import { HourglassEmpty } from '@material-ui/icons';
-import { withStyles } from '@material-ui/core/styles';
+} from '@material-ui/core'
+import { HourglassEmpty } from '@material-ui/icons'
+import { withStyles } from '@material-ui/core/styles'
 
-import MainNavbar from '../../components/MainNavbar';
+import MainNavbar from 'components/MainNavbar'
+import api from 'services/api'
 
-import styles from './styles';
+import styles from './styles'
 
-import api from '../../services/api';
 
 class Dashboard extends React.Component {
   state = {
@@ -39,32 +39,32 @@ class Dashboard extends React.Component {
       qty: 0,
       trucks: [],
     },
-  };
+  }
 
   async componentDidMount() {
-    const response = await api.get('/processes');
+    const response = await api.get('/processes')
 
     this.setState({
       greenProcesses: response.data.green,
       yellowProcesses: response.data.yellow,
       redProcesses: response.data.red,
       greyProcesses: response.data.grey,
-    });
+    })
   }
 
   onFilterLastTimeClick = async (val) => {
-    const response = await api.get(val);
+    const response = await api.get(val)
     this.setState({
       greenProcesses: response.data.green,
       yellowProcesses: response.data.yellow,
       redProcesses: response.data.red,
       greyProcesses: response.data.grey,
-    });
-  };
+    })
+  }
 
   renderListItem = (processes) => {
-    const { classes } = this.props;
-    const limitedItens = processes.trucks.length > 7 ? processes.trucks.slice(0, 7) : processes.trucks;
+    const { classes } = this.props
+    const limitedItens = processes.trucks.length > 7 ? processes.trucks.slice(0, 7) : processes.trucks
     return limitedItens.map((item, i) => (
       <ListItem key={i.toString()} className={classes.listItem}>
         <a
@@ -74,14 +74,14 @@ class Dashboard extends React.Component {
           {item.conteiner}
         </a>
       </ListItem>
-    ));
-  };
+    ))
+  }
 
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
     const {
       greenProcesses, yellowProcesses, redProcesses, greyProcesses,
-    } = this.state;
+    } = this.state
 
     return (
       <div className={classes.root}>
@@ -107,7 +107,7 @@ class Dashboard extends React.Component {
                   size="small"
                   className={classes.fab}
                   onClick={() => {
-                    this.onFilterLastTimeClick('/processes?startDate=2019-05-17T10:15:00');
+                    this.onFilterLastTimeClick('/processes?startDate=2019-05-17T10:15:00')
                   }}
                 >
                   15m
@@ -116,7 +116,7 @@ class Dashboard extends React.Component {
                   size="small"
                   className={classes.fab}
                   onClick={() => {
-                    this.onFilterLastTimeClick('/processes?startDate=2019-05-17T10:00:00');
+                    this.onFilterLastTimeClick('/processes?startDate=2019-05-17T10:00:00')
                   }}
                 >
                   30m
@@ -224,8 +224,8 @@ class Dashboard extends React.Component {
           </Grid>
         </Grid>
       </div>
-    );
+    )
   }
 }
 
-export default withStyles(styles)(Dashboard);
+export default withStyles(styles)(Dashboard)

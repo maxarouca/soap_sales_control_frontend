@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
-import Routes from './routes';
+import Routes from './routes'
 
-import './App.css';
+import './App.css'
 
-const App = () => <Routes />;
+const App = () => <Routes />
 
-export default App;
+export default App

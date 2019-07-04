@@ -33,6 +33,6 @@ const styles = theme => ({
     fontSize: '14px',
     color: '#666666',
   },
-});
+})
 
-export default styles;
+export default styles
