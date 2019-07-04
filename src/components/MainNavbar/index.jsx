@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
 
 import {
   AppBar,
@@ -10,7 +10,7 @@ import {
   InputBase,
   MenuItem,
   Menu,
-} from '@material-ui/core';
+} from '@material-ui/core'
 
 import {
   Assessment,
@@ -21,27 +21,27 @@ import {
   Cancel,
   Search as SearchIcon,
   More as MoreIcon,
-} from '@material-ui/icons';
+} from '@material-ui/icons'
 
-import styles from './styles';
+import styles from './styles'
 
 class MainNavbar extends React.Component {
   state = {
     anchorEl: null,
-  };
+  }
 
   handleProfileMenuOpen = (event) => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
+    this.setState({ anchorEl: event.currentTarget })
+  }
 
   handleMenuClose = () => {
-    this.setState({ anchorEl: null });
-  };
+    this.setState({ anchorEl: null })
+  }
 
   render() {
-    const { anchorEl } = this.state;
-    const { classes } = this.props;
-    const isMenuOpen = Boolean(anchorEl);
+    const { anchorEl } = this.state
+    const { classes } = this.props
+    const isMenuOpen = Boolean(anchorEl)
 
     const renderMenu = (
       <Menu
@@ -67,7 +67,7 @@ class MainNavbar extends React.Component {
           </a>
         </MenuItem>
       </Menu>
-    );
+    )
 
     return (
       <div className={classes.root}>
@@ -166,13 +166,13 @@ class MainNavbar extends React.Component {
         </AppBar>
         {renderMenu}
       </div>
-    );
+    )
   }
 }
 
 MainNavbar.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   classes: PropTypes.object.isRequired,
-};
+}
 
-export default withStyles(styles)(MainNavbar);
+export default withStyles(styles)(MainNavbar)

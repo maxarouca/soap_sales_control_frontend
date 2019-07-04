@@ -1,7 +1,7 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
+import React from 'react'
+import { Route } from 'react-router-dom'
 
-// import store from '../store';
+// import store from 'store'
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   /* <Route
@@ -14,6 +14,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     }
   /> */
   <Route {...rest} render={props => <Component {...props} />} />
-);
+)
 
-export default PrivateRoute;
+export default PrivateRoute
