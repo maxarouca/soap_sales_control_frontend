@@ -6,11 +6,14 @@ import { Link } from 'react-router-dom'
 import {
   AppBar,
   Toolbar,
-  IconButton,
+  Popper,
+  Grow,
+  Paper,
   Typography,
   InputBase,
   MenuItem,
-  Menu,
+  MenuList,
+  ClickAwayListener,
 } from '@material-ui/core'
 
 import {
@@ -21,172 +24,138 @@ import {
   InsertEmoticon,
   Cancel,
   Search as SearchIcon,
-  More as MoreIcon,
 } from '@material-ui/icons'
 
 import styles from './styles'
 
-class MainNavbar extends React.Component {
-  state = {
-    anchorEl: null,
+const MainNavbar = () => {
+  const classes = styles()
+  const [open, setOpen] = React.useState(false)
+  const anchorRef = React.useRef(null)
+
+  function handleToggle() {
+    setOpen(prevOpen => !prevOpen)
   }
 
-  handleProfileMenuOpen = (event) => {
-    this.setState({ anchorEl: event.currentTarget })
+  function handleClose(event) {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return
+    }
+
+    setOpen(false)
   }
 
-  handleMenuClose = () => {
-    this.setState({ anchorEl: null })
-  }
-
-  render() {
-    const { anchorEl } = this.state
-    const { classes } = this.props
-    const isMenuOpen = Boolean(anchorEl)
-
-    const renderMenu = (
-      <Menu
-        anchorEl={anchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMenuOpen}
-        onClose={this.handleMenuClose}
-      >
-        <MenuItem onClick={this.handleMenuClose}>
-          <Link style={{ textDecoration: 'none' }} to="/consult_operator">
-            Operador
-          </Link>
-        </MenuItem>
-        <MenuItem onClick={this.handleMenuClose}>
-          <Link style={{ textDecoration: 'none' }} to="/consult_plate">
-            Placa
-          </Link>
-        </MenuItem>
-        <MenuItem onClick={this.handleMenuClose}>
-          <Link style={{ textDecoration: 'none' }} to="/consult_container">
-            Container
-          </Link>
-        </MenuItem>
-      </Menu>
-    )
-
-    return (
-      <div className={classes.root}>
-        <AppBar position="static" style={{ backgroundColor: '#CB184B' }}>
-          <Toolbar>
-            <div className={classes.sectionMobile}>
-              <IconButton
-                aria-haspopup="true"
-                onClick={() => {}}
-                color="inherit"
-              >
-                <MoreIcon />
-              </IconButton>
-            </div>
-
-            <div className={classes.sectionLogo}>
-              <img
-                className={classes.logoImg}
-                src="assets/images/logos/inova_white.svg"
-                alt="logo"
-              />
-              <Typography
-                className={classes.title}
-                variant="h6"
-                color="inherit"
-                noWrap
-              >
-                Boilerplate
-              </Typography>
-            </div>
-
-            <div className={classes.sectionDesktop}>
-              <ul className={classes.listNav}>
-                <li className={classes.listNavItem}>
-                  <Typography color="inherit">
-                    <Link
-                      style={{ textDecoration: 'none', color: '#ffffff' }}
-                      to="/"
-                    >
-                      DASHBOARD
-                    </Link>
-                  </Typography>
-                  <div className={classes.listNavItemSep} />
-                  <Assessment />
-                </li>
-
-                <li className={classes.listNavItem}>
-                  <Typography color="inherit">
-                    <Link
-                      style={{ textDecoration: 'none', color: '#ffffff' }}
-                      to="/containers_list"
-                    >
-                      LISTAR CONTAINERS
-                    </Link>
-                  </Typography>
-                  <div className={classes.listNavItemSep} />
-                  <Dns />
-                </li>
-
-                <li className={classes.listNavItem}>
-                  <Typography color="inherit">
-                    <Link
-                      style={{ textDecoration: 'none', color: '#ffffff' }}
-                      to="/analyze_container"
-                    >
-                      ANALISAR
-                    </Link>
-                  </Typography>
-                  <div className={classes.listNavItemSep} />
-                  <CheckCircle />
-                </li>
-
-                <li className={classes.listNavItem}>
-                  <Typography
-                    onClick={this.handleProfileMenuOpen}
-                    color="inherit"
-                  >
-                    CONSULTAR
-                  </Typography>
-                  <div className={classes.listNavItemSep} />
-                  <ArrowDropDownCircle onClick={this.handleProfileMenuOpen} />
-                </li>
-              </ul>
-            </div>
-
-            <div className={classes.grow} />
-
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Buscar"
+  const renderMenu = (
+    <Popper
+      open={open}
+      anchorEl={anchorRef.current}
+      keepMounted
+      transition
+      disablePortal
+    >
+      {({ TransitionProps, placement }) => (
+        <Grow
+          {...TransitionProps}
+          style={{
+            transformOrigin:
+              placement === 'bottom' ? 'center top' : 'center bottom',
+          }}
+        >
+          <Paper id="menu-list-grow">
+            <ClickAwayListener onClickAway={handleClose}>
+              <MenuList
                 classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
+                  root: classes.dropdown,
                 }}
-              />
-            </div>
+              >
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleClose}>Logout</MenuItem>
+              </MenuList>
+            </ClickAwayListener>
+          </Paper>
+        </Grow>
+      )}
+    </Popper>
+  )
 
-            <div className={classes.sectionUser}>
-              <ul className={classes.listNav}>
-                <li className={classes.listNavItemUsername}>
-                  <InsertEmoticon />
-                  <div className={classes.listNavItemSep} />
-                  <Typography color="inherit">USERNAME</Typography>
-                </li>
-                <li className={classes.listNavItem}>
-                  <Cancel />
-                </li>
-              </ul>
+  return (
+    <div className={classes.root}>
+      <AppBar position="static" style={{ backgroundColor: '#CB184B' }}>
+        <Toolbar>
+          <div className={classes.sectionDesktop}>
+            <ul className={classes.listNav}>
+              <li className={classes.listNavItem}>
+                <Typography color="inherit">
+                  <Link className={classes.menuItem} to="/">
+                    DASHBOARD
+                  </Link>
+                </Typography>
+                <Assessment />
+              </li>
+
+              <li className={classes.listNavItem}>
+                <Typography color="inherit">
+                  <Link className={classes.menuItem} to="/containers_list">
+                    LISTAR CONTAINERS
+                  </Link>
+                </Typography>
+                <Dns />
+              </li>
+
+              <li className={classes.listNavItem}>
+                <Typography color="inherit">
+                  <Link className={classes.menuItem} to="/analyze_container">
+                    ANALISAR
+                  </Link>
+                </Typography>
+                <CheckCircle />
+              </li>
+
+              <li className={classes.listNavItem} ref={anchorRef}>
+                <Typography
+                  color="inherit"
+                  onClick={handleToggle}
+                  className={classes.menuItem}
+                >
+                  CONSULTAR
+                  <ArrowDropDownCircle className={classes.menuIcon} />
+                </Typography>
+              </li>
+            </ul>
+          </div>
+
+          <div className={classes.grow} />
+
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
             </div>
-          </Toolbar>
-        </AppBar>
-        {renderMenu}
-      </div>
-    )
-  }
+            <InputBase
+              placeholder="Buscar"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+            />
+          </div>
+
+          <div className={classes.sectionUser}>
+            <ul className={classes.listNav}>
+              <li className={classes.listNavItemUsername}>
+                <InsertEmoticon />
+                <Typography color="inherit">USERNAME</Typography>
+              </li>
+              <li className={classes.listNavItem}>
+                <Cancel />
+              </li>
+            </ul>
+          </div>
+        </Toolbar>
+      </AppBar>
+      {renderMenu}
+    </div>
+  )
 }
 
 MainNavbar.propTypes = {

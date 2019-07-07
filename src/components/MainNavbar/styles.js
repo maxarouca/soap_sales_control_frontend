@@ -1,6 +1,7 @@
 import { fade } from '@material-ui/core/styles/colorManipulator'
+import { makeStyles } from '@material-ui/core/styles'
 
-const styles = theme => ({
+export default makeStyles(theme => ({
   root: {
     width: '100%',
   },
@@ -19,12 +20,12 @@ const styles = theme => ({
     marginLeft: -12,
     marginRight: 20,
   },
-  title: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
-  },
+  // title: {
+  //   display: 'none',
+  //   [theme.breakpoints.up('sm')]: {
+  //     display: 'block',
+  //   },
+  // },
   sectionUser: {
     display: 'flex',
     minHeight: 'inherit',
@@ -41,9 +42,11 @@ const styles = theme => ({
     alignItems: 'center',
     paddingLeft: 20,
     paddingRight: 20,
+    transition: 'all 0.2s',
 
     '&:hover': {
-      backgroundColor: '#850000',
+      backgroundColor: theme.palette.primary.hover,
+      cursor: 'pointer',
     },
   },
   listNavItemUsername: {
@@ -58,7 +61,18 @@ const styles = theme => ({
     marginLeft: 10,
   },
   menuItem: {
+    display: 'flex',
     alignItems: 'center',
+    textDecoration: 'none',
+    color: '#ffffff',
+    marginRight: 10,
+  },
+  menuIcon: {
+    marginLeft: 10,
+  },
+  dropdown: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.lighter,
   },
   search: {
     position: 'relative',
@@ -109,6 +123,4 @@ const styles = theme => ({
       display: 'none',
     },
   },
-})
-
-export default styles
+}))

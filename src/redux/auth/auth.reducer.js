@@ -5,7 +5,7 @@ import {
   SUCCESS_LOGIN,
   SUCCESS_REGISTER,
   RECOVER_PASSWORD,
-} from './auth.actions';
+} from './auth.actions'
 
 const initialState = {
   token: null,
@@ -15,7 +15,7 @@ const initialState = {
   fail: null,
   products: null,
   inova_key: null,
-};
+}
 
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -24,7 +24,7 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         load: true,
         fail: false,
-      };
+      }
 
     case SUCCESS_LOGIN:
       return {
@@ -33,21 +33,21 @@ export const authReducer = (state = initialState, action) => {
         firstName: action.payload.username,
         email: action.payload.email,
         groups: action.payload.groups,
-        token: action.payload.access_token,
+        token: action.payload.token,
         refresh_token: action.payload.refresh_token,
         products: action.payload.plans,
         inova_key: action.payload.api_key,
         user_id: action.payload.sub,
         load: false,
         fail: false,
-      };
+      }
 
     case FAIL_LOGIN:
       return {
         ...state,
         load: false,
         fail: true,
-      };
+      }
 
     case LOGOUT:
       return {
@@ -63,23 +63,23 @@ export const authReducer = (state = initialState, action) => {
         user_id: null,
         load: false,
         fail: false,
-      };
+      }
 
     case SUCCESS_REGISTER:
       return {
         ...state,
         destination: action.payload.destination,
         sub: action.payload.sub,
-      };
+      }
 
     case RECOVER_PASSWORD:
       return {
         ...state,
         destination: action.payload,
-      };
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default authReducer;
+export default authReducer

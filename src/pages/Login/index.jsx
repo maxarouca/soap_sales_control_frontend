@@ -5,11 +5,14 @@ import compose from 'recompose/compose'
 import { TextField, Button } from '@material-ui/core'
 
 import { withStyles } from '@material-ui/core/styles'
-// import { bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux'
+import { successLogin } from 'redux/auth/auth.actions'
 import styles from './styles'
 // import api from '../../services/api'
 
 const Dashboard = (props) => {
+  const classes = styles()
+
   const [values, setValues] = React.useState({
     email: '',
     password: '',
@@ -22,6 +25,11 @@ const Dashboard = (props) => {
   const handleSubmit = (email, password) => {
     if (email === 'dev@inovamind.com.br' && password === 'inova@2019') {
       console.log('login efetuado com sucesso')
+
+      props.successLogin({
+        email,
+        token: '123',
+      })
       props.history.push({
         pathname: '/dashboard',
       })
@@ -30,7 +38,6 @@ const Dashboard = (props) => {
     }
   }
 
-  const classes = styles()
 
   return (
     <div className={classes.root}>
@@ -82,10 +89,12 @@ const mapStateToProps = store => ({
   auth: store.auth,
 })
 
+const mapDispatchToProps = dispatch => bindActionCreators({ successLogin }, dispatch)
+
 export default compose(
   withStyles(styles, { withTheme: true }),
   connect(
     mapStateToProps,
-    null,
+    mapDispatchToProps,
   ),
 )(Dashboard)

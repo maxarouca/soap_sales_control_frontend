@@ -6,8 +6,12 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       main: '#CA1948',
-      hover: '#dc3360',
+      hover: '#ba103d',
       bg: '#f9edf0',
+      dark: '#192131',
+      darker: '#070F20',
+      light: '#9B9FB0',
+      lighter: '#FFF',
     },
     secondary: {
       main: '#343A40',
