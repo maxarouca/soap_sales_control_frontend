@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 
 import {
   AppBar,
@@ -14,7 +14,7 @@ import {
   MenuItem,
   MenuList,
   ClickAwayListener,
-} from '@material-ui/core'
+} from '@material-ui/core';
 
 import {
   Assessment,
@@ -24,25 +24,25 @@ import {
   InsertEmoticon,
   Cancel,
   Search as SearchIcon,
-} from '@material-ui/icons'
+} from '@material-ui/icons';
 
-import styles from './styles'
+import styles from './styles';
 
 const MainNavbar = () => {
-  const classes = styles()
-  const [open, setOpen] = React.useState(false)
-  const anchorRef = React.useRef(null)
+  const classes = styles();
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
 
   function handleToggle() {
-    setOpen(prevOpen => !prevOpen)
+    setOpen(prevOpen => !prevOpen);
   }
 
   function handleClose(event) {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return
+      return;
     }
 
-    setOpen(false)
+    setOpen(false);
   }
 
   const renderMenu = (
@@ -77,42 +77,24 @@ const MainNavbar = () => {
         </Grow>
       )}
     </Popper>
-  )
+  );
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" style={{ backgroundColor: '#CB184B' }}>
+      <AppBar position="static" style={{ backgroundColor: '#2CC197' }}>
         <Toolbar>
           <div className={classes.sectionDesktop}>
             <ul className={classes.listNav}>
-              <li className={classes.listNavItem}>
+              {/* <li className={classes.listNavItem}>
                 <Typography color="inherit">
                   <Link className={classes.menuItem} to="/">
                     DASHBOARD
                   </Link>
                 </Typography>
                 <Assessment />
-              </li>
+              </li> */}
 
-              <li className={classes.listNavItem}>
-                <Typography color="inherit">
-                  <Link className={classes.menuItem} to="/containers_list">
-                    LISTAR CONTAINERS
-                  </Link>
-                </Typography>
-                <Dns />
-              </li>
-
-              <li className={classes.listNavItem}>
-                <Typography color="inherit">
-                  <Link className={classes.menuItem} to="/analyze_container">
-                    ANALISAR
-                  </Link>
-                </Typography>
-                <CheckCircle />
-              </li>
-
-              <li className={classes.listNavItem} ref={anchorRef}>
+              {/* <li className={classes.listNavItem} ref={anchorRef}>
                 <Typography
                   color="inherit"
                   onClick={handleToggle}
@@ -121,7 +103,7 @@ const MainNavbar = () => {
                   CONSULTAR
                   <ArrowDropDownCircle className={classes.menuIcon} />
                 </Typography>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -155,12 +137,12 @@ const MainNavbar = () => {
       </AppBar>
       {renderMenu}
     </div>
-  )
-}
+  );
+};
 
 MainNavbar.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   classes: PropTypes.object.isRequired,
-}
+};
 
-export default withStyles(styles)(MainNavbar)
+export default withStyles(styles)(MainNavbar);

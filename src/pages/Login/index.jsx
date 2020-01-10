@@ -1,43 +1,42 @@
 // /* eslint-disable react/prop-types */
-import React from 'react'
-import { connect } from 'react-redux'
-import compose from 'recompose/compose'
-import { TextField, Button } from '@material-ui/core'
+import React from 'react';
+import { connect } from 'react-redux';
+import compose from 'recompose/compose';
+import { TextField, Button } from '@material-ui/core';
 
-import { withStyles } from '@material-ui/core/styles'
-import { bindActionCreators } from 'redux'
-import { successLogin } from 'redux/auth/auth.actions'
-import styles from './styles'
+import { withStyles } from '@material-ui/core/styles';
+import { bindActionCreators } from 'redux';
+import { successLogin } from 'redux/auth/auth.actions';
+import styles from './styles';
 // import api from '../../services/api'
 
-const Dashboard = (props) => {
-  const classes = styles()
+const Dashboard = props => {
+  const classes = styles();
 
   const [values, setValues] = React.useState({
     email: '',
     password: '',
-  })
+  });
 
-  const handleChange = name => (event) => {
-    setValues({ ...values, [name]: event.target.value })
-  }
+  const handleChange = name => event => {
+    setValues({ ...values, [name]: event.target.value });
+  };
 
   const handleSubmit = (email, password) => {
-    if (email === 'dev@inovamind.com.br' && password === 'inova@2019') {
-      console.log('login efetuado com sucesso')
+    if (email === 'maximiler@gmail.com' && password === '123456') {
+      console.log('login efetuado com sucesso');
 
       props.successLogin({
         email,
         token: '123',
-      })
+      });
       props.history.push({
         pathname: '/dashboard',
-      })
+      });
     } else {
-      alert('Email ou senha inválidos')
+      alert('Email ou senha inválidos');
     }
-  }
-
+  };
 
   return (
     <div className={classes.root}>
@@ -82,19 +81,17 @@ const Dashboard = (props) => {
         </Button>
       </main>
     </div>
-  )
-}
+  );
+};
 
 const mapStateToProps = store => ({
   auth: store.auth,
-})
+});
 
-const mapDispatchToProps = dispatch => bindActionCreators({ successLogin }, dispatch)
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ successLogin }, dispatch);
 
 export default compose(
   withStyles(styles, { withTheme: true }),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  ),
-)(Dashboard)
+  connect(mapStateToProps, mapDispatchToProps)
+)(Dashboard);
