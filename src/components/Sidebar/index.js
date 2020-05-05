@@ -16,10 +16,10 @@ import {
   // Search as SearchIcon,
   // More as MoreIcon,
 } from '@material-ui/icons';
-import styles from './styles';
+import { useStyles } from './styles';
 
 const Sidebar = () => {
-  const classes = styles();
+  const classes = useStyles();
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   function handleListItemClick(event, index) {
@@ -53,7 +53,7 @@ const Sidebar = () => {
           <ListItem
             button
             selected={selectedIndex === 0}
-            onClick={event => handleListItemClick(event, 0)}
+            onClick={(event) => handleListItemClick(event, 0)}
             classes={{
               root: classes.listItem,
               selected: classes.selected,
@@ -98,4 +98,4 @@ const Sidebar = () => {
   );
 };
 
-export default withStyles(styles, { withTheme: true })(Sidebar);
+export default Sidebar;

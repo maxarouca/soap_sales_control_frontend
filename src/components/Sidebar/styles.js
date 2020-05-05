@@ -1,6 +1,6 @@
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles';
 
-const styles = makeStyles(theme => ({
+export const useStyles = makeStyles((theme) => ({
   root: {},
   aside: {
     width: 300,
@@ -48,6 +48,4 @@ const styles = makeStyles(theme => ({
   iconLink: {
     color: theme.palette.primary.light,
   },
-}))
-
-export default styles
+}));

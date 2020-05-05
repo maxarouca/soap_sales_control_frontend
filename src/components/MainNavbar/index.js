@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from 'redux/auth/auth.actions';
 
 import {
   AppBar,
@@ -17,24 +17,26 @@ import {
 } from '@material-ui/core';
 
 import {
-  Assessment,
-  Dns,
-  CheckCircle,
-  ArrowDropDownCircle,
   InsertEmoticon,
   Cancel,
   Search as SearchIcon,
+  Assessment,
+  ArrowDropDownCircle,
 } from '@material-ui/icons';
 
-import styles from './styles';
+import { useStyles } from './styles';
 
 const MainNavbar = () => {
-  const classes = styles();
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const name = useSelector((state) => state.auth.name);
+
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
   function handleToggle() {
-    setOpen(prevOpen => !prevOpen);
+    setOpen((prevOpen) => !prevOpen);
   }
 
   function handleClose(event) {
@@ -85,25 +87,21 @@ const MainNavbar = () => {
         <Toolbar>
           <div className={classes.sectionDesktop}>
             <ul className={classes.listNav}>
-              {/* <li className={classes.listNavItem}>
+              <li className={classes.listNavItem}>
                 <Typography color="inherit">
                   <Link className={classes.menuItem} to="/">
                     DASHBOARD
                   </Link>
                 </Typography>
                 <Assessment />
-              </li> */}
+              </li>
 
-              {/* <li className={classes.listNavItem} ref={anchorRef}>
-                <Typography
-                  color="inherit"
-                  onClick={handleToggle}
-                  className={classes.menuItem}
-                >
+              <li className={classes.listNavItem} ref={anchorRef}>
+                <Typography color="inherit">
                   CONSULTAR
                   <ArrowDropDownCircle className={classes.menuIcon} />
                 </Typography>
-              </li> */}
+              </li>
             </ul>
           </div>
 
@@ -126,9 +124,12 @@ const MainNavbar = () => {
             <ul className={classes.listNav}>
               <li className={classes.listNavItemUsername}>
                 <InsertEmoticon />
-                <Typography color="inherit">USERNAME</Typography>
+                {name && <Typography color="inherit">{name}</Typography>}
               </li>
-              <li className={classes.listNavItem}>
+              <li
+                className={classes.listNavItem}
+                onClick={() => dispatch(logout())}
+              >
                 <Cancel />
               </li>
             </ul>
@@ -140,9 +141,4 @@ const MainNavbar = () => {
   );
 };
 
-MainNavbar.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(MainNavbar);
+export default MainNavbar;

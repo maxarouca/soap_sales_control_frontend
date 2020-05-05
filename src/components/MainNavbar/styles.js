@@ -1,7 +1,7 @@
-import { fade } from '@material-ui/core/styles/colorManipulator'
-import { makeStyles } from '@material-ui/core/styles'
+import { fade } from '@material-ui/core/styles/colorManipulator';
+import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles(theme => ({
+export const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
   },
@@ -123,4 +123,4 @@ export default makeStyles(theme => ({
       display: 'none',
     },
   },
-}))
+}));

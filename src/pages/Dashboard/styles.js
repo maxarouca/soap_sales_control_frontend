@@ -1,4 +1,6 @@
-const styles = theme => ({
+import { makeStyles } from '@material-ui/core';
+
+export const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
@@ -33,6 +35,4 @@ const styles = theme => ({
     fontSize: '14px',
     color: '#666666',
   },
-})
-
-export default styles
+}));

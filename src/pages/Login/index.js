@@ -1,40 +1,42 @@
 // /* eslint-disable react/prop-types */
 import React from 'react';
-import { connect } from 'react-redux';
-import compose from 'recompose/compose';
+import { useDispatch } from 'react-redux';
 import { TextField, Button } from '@material-ui/core';
 
-import { withStyles } from '@material-ui/core/styles';
-import { bindActionCreators } from 'redux';
 import { successLogin } from 'redux/auth/auth.actions';
-import styles from './styles';
-// import api from '../../services/api'
+import { useStyles } from './styles';
+import api from '../../services/api';
 
-const Dashboard = props => {
-  const classes = styles();
+const Login = (props) => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [values, setValues] = React.useState({
     email: '',
     password: '',
   });
 
-  const handleChange = name => event => {
+  const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const handleSubmit = (email, password) => {
-    if (email === 'maximiler@gmail.com' && password === '123456') {
-      console.log('login efetuado com sucesso');
+  const handleSubmit = async (email, password) => {
+    const { data } = await api.post('/login', {
+      email,
+      password,
+    });
 
-      props.successLogin({
-        email,
-        token: '123',
-      });
+    if (data) {
+      dispatch(
+        successLogin({
+          ...data.user,
+          token: data.token,
+        })
+      );
+
       props.history.push({
         pathname: '/dashboard',
       });
-    } else {
-      alert('Email ou senha inválidos');
     }
   };
 
@@ -84,14 +86,4 @@ const Dashboard = props => {
   );
 };
 
-const mapStateToProps = store => ({
-  auth: store.auth,
-});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ successLogin }, dispatch);
-
-export default compose(
-  withStyles(styles, { withTheme: true }),
-  connect(mapStateToProps, mapDispatchToProps)
-)(Dashboard);
+export default Login;
