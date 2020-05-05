@@ -35,9 +35,9 @@ const MainNavbar = () => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
-  function handleToggle() {
-    setOpen((prevOpen) => !prevOpen);
-  }
+  // function handleToggle() {
+  //   setOpen((prevOpen) => !prevOpen);
+  // }
 
   function handleClose(event) {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {

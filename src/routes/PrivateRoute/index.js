@@ -1,12 +1,9 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { connect, useSelector } from 'react-redux';
-import compose from 'recompose/compose';
+import { useSelector } from 'react-redux';
 import MainNavbar from 'components/MainNavbar';
-import Sidebar from 'components/Sidebar';
-import { withStyles } from '@material-ui/core/styles';
+// import Sidebar from 'components/Sidebar';
 import styles from './styles';
-// import jwtDecode from 'jwt-decode'
 
 const PrivateRoute = ({ component: Component, auth, history, ...rest }) => {
   const { token } = useSelector((state) => state.auth);
