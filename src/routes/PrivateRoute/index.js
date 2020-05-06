@@ -8,6 +8,9 @@ import styles from './styles';
 const PrivateRoute = ({ component: Component, auth, history, ...rest }) => {
   const { token } = useSelector((state) => state.auth);
   const classes = styles();
+  const headers = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
 
   const isAuth = () => {
     if (token) {
@@ -35,7 +38,7 @@ const PrivateRoute = ({ component: Component, auth, history, ...rest }) => {
             >
               <MainNavbar />
               <div className={classes.component}>
-                <Component {...props} />
+                <Component {...props} headers={headers} />
               </div>
             </div>
           </div>
