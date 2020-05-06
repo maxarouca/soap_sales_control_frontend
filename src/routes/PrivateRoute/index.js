@@ -5,6 +5,9 @@ import MainNavbar from 'components/MainNavbar';
 // import Sidebar from 'components/Sidebar';
 import styles from './styles';
 
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+
 const PrivateRoute = ({ component: Component, auth, history, ...rest }) => {
   const { token } = useSelector((state) => state.auth);
   const classes = styles();
@@ -38,7 +41,9 @@ const PrivateRoute = ({ component: Component, auth, history, ...rest }) => {
             >
               <MainNavbar />
               <div className={classes.component}>
-                <Component {...props} headers={headers} />
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Component {...props} headers={headers} />
+                </MuiPickersUtilsProvider>
               </div>
             </div>
           </div>

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useStyles } from './styles';
 import Card from 'components/Card';
 import Modal from 'components/Modal';
-// import DateInput from 'components/DateInput';
+import { KeyboardDatePicker } from '@material-ui/pickers';
+
 import { LinearProgress, Button } from '@material-ui/core';
 import api from '../../services/api';
 
@@ -42,6 +43,8 @@ const Dashboard = ({ headers }) => {
     setOpen(false);
   };
 
+  const [selectedDate, handleDateChange] = useState(new Date());
+
   return (
     <div className={classes.root}>
       <div className={classes.headerPage}>
@@ -80,7 +83,26 @@ const Dashboard = ({ headers }) => {
         >
           Último ano
         </Button>
-        {/* <DateInput></DateInput> */}
+        <div className={classes.dateInputContainer}>
+          <span>De:</span>
+          <KeyboardDatePicker
+            placeholder="10/10/2018"
+            value={selectedDate}
+            onChange={(date) => handleDateChange(date)}
+            format="dd/MM/yyyy"
+            style={{ width: 150 }}
+          />
+        </div>
+        <div className={classes.dateInputContainer}>
+          <span>Até:</span>
+          <KeyboardDatePicker
+            placeholder="10/10/2018"
+            value={selectedDate}
+            onChange={(date) => handleDateChange(date)}
+            format="dd/MM/yyyy"
+            style={{ width: 150 }}
+          />
+        </div>
       </div>
 
       {loading ? (
