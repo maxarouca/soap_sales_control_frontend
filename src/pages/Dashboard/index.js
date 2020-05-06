@@ -3,6 +3,8 @@ import { useStyles } from './styles';
 import Card from 'components/Card';
 import Modal from 'components/Modal';
 import { KeyboardDatePicker } from '@material-ui/pickers';
+import { format, subDays, subMonths, startOfMonth } from 'date-fns';
+import formatToMoney from 'util/formatToMoney';
 
 import { LinearProgress, Button } from '@material-ui/core';
 import api from '../../services/api';
@@ -12,25 +14,38 @@ const Dashboard = ({ headers }) => {
 
   const [state, setState] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [selectedDateIn, handleDateChangeIn] = useState(new Date('01/01/2019'));
+  const [selectedDateFor, handleDateChangeFor] = useState(new Date());
 
-  async function loadData() {
+  async function loadData(startDate, endDate) {
+    setLoading(true);
     const { data } = await api.get(
-      '/tax?startDate=2020-01-01&endDate=2020-11-31&tax=6',
+      `/tax?startDate=${format(startDate, 'MM/dd/yyyy')}&endDate=${format(
+        endDate,
+        'MM/dd/yyyy'
+      )}&tax=6`,
       {
         ...headers,
       }
     );
 
     if (data) {
+      if (data.message) {
+        setState({
+          rough: formatToMoney(0),
+          aliquot: formatToMoney(0),
+          tax: formatToMoney(0),
+          profit: formatToMoney(0),
+        });
+        return setLoading(false);
+      }
       setState(data);
       setLoading(false);
     }
   }
 
   useEffect(() => {
-    console.log(loading);
-
-    loadData();
+    loadData(selectedDateIn, selectedDateFor);
   }, []);
 
   const [open, setOpen] = React.useState(false);
@@ -43,7 +58,28 @@ const Dashboard = ({ headers }) => {
     setOpen(false);
   };
 
-  const [selectedDate, handleDateChange] = useState(new Date());
+  const lastMonth = () => {
+    const date = startOfMonth(new Date());
+    const month = subMonths(date, 1);
+    loadData(month, date);
+  };
+
+  const last30Days = () => {
+    const date = subDays(new Date(), 30);
+    loadData(date, selectedDateFor);
+  };
+
+  const lastSixMonths = () => {
+    const date = startOfMonth(new Date());
+    const month = subMonths(date, 6);
+    loadData(month, date);
+  };
+
+  const lastYear = () => {
+    const date = startOfMonth(new Date());
+    const month = subMonths(date, 12);
+    loadData(month, date);
+  };
 
   return (
     <div className={classes.root}>
@@ -58,28 +94,28 @@ const Dashboard = ({ headers }) => {
         <Button
           variant="contained"
           className={classes.filterButton}
-          onClick={handleClickOpen}
+          onClick={lastMonth}
         >
-          Ultimo Mês
+          Mês anterior
         </Button>
         <Button
           variant="contained"
           className={classes.filterButton}
-          onClick={handleClickOpen}
+          onClick={last30Days}
         >
           Últimos 30 dias
         </Button>
         <Button
           variant="contained"
           className={classes.filterButton}
-          onClick={handleClickOpen}
+          onClick={lastSixMonths}
         >
           Últimos 6 meses
         </Button>
         <Button
           variant="contained"
           className={classes.filterButton}
-          onClick={handleClickOpen}
+          onClick={lastYear}
         >
           Último ano
         </Button>
@@ -87,8 +123,8 @@ const Dashboard = ({ headers }) => {
           <span>De:</span>
           <KeyboardDatePicker
             placeholder="10/10/2018"
-            value={selectedDate}
-            onChange={(date) => handleDateChange(date)}
+            value={selectedDateIn}
+            onChange={(date) => handleDateChangeIn(date)}
             format="dd/MM/yyyy"
             style={{ width: 150 }}
           />
@@ -97,12 +133,19 @@ const Dashboard = ({ headers }) => {
           <span>Até:</span>
           <KeyboardDatePicker
             placeholder="10/10/2018"
-            value={selectedDate}
-            onChange={(date) => handleDateChange(date)}
+            value={selectedDateFor}
+            onChange={(date) => handleDateChangeFor(date)}
             format="dd/MM/yyyy"
             style={{ width: 150 }}
           />
         </div>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => loadData(selectedDateIn, selectedDateFor)}
+        >
+          Filtrar
+        </Button>
       </div>
 
       {loading ? (
