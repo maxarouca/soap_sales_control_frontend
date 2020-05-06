@@ -14,6 +14,7 @@ import {
   MenuItem,
   MenuList,
   ClickAwayListener,
+  Icon,
 } from '@material-ui/core';
 
 import {
@@ -47,67 +48,44 @@ const MainNavbar = () => {
     setOpen(false);
   }
 
-  const renderMenu = (
-    <Popper
-      open={open}
-      anchorEl={anchorRef.current}
-      keepMounted
-      transition
-      disablePortal
-    >
-      {({ TransitionProps, placement }) => (
-        <Grow
-          {...TransitionProps}
-          style={{
-            transformOrigin:
-              placement === 'bottom' ? 'center top' : 'center bottom',
-          }}
-        >
-          <Paper id="menu-list-grow">
-            <ClickAwayListener onClickAway={handleClose}>
-              <MenuList
-                classes={{
-                  root: classes.dropdown,
-                }}
-              >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
-              </MenuList>
-            </ClickAwayListener>
-          </Paper>
-        </Grow>
-      )}
-    </Popper>
-  );
-
   return (
     <div className={classes.root}>
       <AppBar position="static" style={{ backgroundColor: '#2CC197' }}>
         <Toolbar>
+          <div className={classes.sectionLogo}>
+            <Link className={classes.menuItem} to="/dashboard">
+              <img
+                src="assets/images/logos/logo_horizontal.png"
+                alt="Logo"
+                className={classes.logoImg}
+              />
+            </Link>
+          </div>
           <div className={classes.sectionDesktop}>
             <ul className={classes.listNav}>
               <li className={classes.listNavItem}>
                 <Typography color="inherit">
-                  <Link className={classes.menuItem} to="/">
+                  <Link className={classes.menuItem} to="/dashboard">
                     DASHBOARD
                   </Link>
                 </Typography>
-                <Assessment />
+                <Icon className={classes.menuIcon}>dashboard</Icon>
               </li>
 
-              <li className={classes.listNavItem} ref={anchorRef}>
+              <li className={classes.listNavItem}>
                 <Typography color="inherit">
-                  CONSULTAR
-                  <ArrowDropDownCircle className={classes.menuIcon} />
+                  <Link className={classes.menuItem} to="/dashboard">
+                    VENDAS
+                  </Link>
                 </Typography>
+                <Icon className={classes.menuIcon}>shopping_cart</Icon>
               </li>
             </ul>
           </div>
 
           <div className={classes.grow} />
 
-          <div className={classes.search}>
+          {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -118,7 +96,7 @@ const MainNavbar = () => {
                 input: classes.inputInput,
               }}
             />
-          </div>
+          </div> */}
 
           <div className={classes.sectionUser}>
             <ul className={classes.listNav}>
@@ -136,7 +114,6 @@ const MainNavbar = () => {
           </div>
         </Toolbar>
       </AppBar>
-      {renderMenu}
     </div>
   );
 };

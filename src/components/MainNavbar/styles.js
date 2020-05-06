@@ -13,8 +13,7 @@ export const useStyles = makeStyles((theme) => ({
     marginRight: '4rem',
   },
   logoImg: {
-    width: 130,
-    height: 35,
+    height: 50,
   },
   menuButton: {
     marginLeft: -12,
