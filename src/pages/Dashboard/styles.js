@@ -4,35 +4,27 @@ export const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
-  fabMarginRight: {
-    marginRight: '1px',
+  headerPage: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 20,
   },
-  fab: {
-    color: 'white',
-    backgroundColor: 'transparent',
-    borderColor: 'white',
-    border: '1px solid',
+  filters: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    padding: 20,
   },
-  inputPeriod: {
-    border: '1px solid white',
-    borderRadius: '23px',
-    width: '120px',
-    textAlign: 'center',
+  filterButton: {
+    margin: '0 10px',
+    '&:last-child': {
+      marginRight: 0,
+    },
   },
-  titleCard: {
-    fontSize: '24px',
-    fontFamily: '“Roboto”, “Helvetica”, “Arial”, sans-serif',
-    fontWeight: '700',
-  },
-  titleCardWhite: {
-    fontSize: '24px',
-    fontFamily: '“Roboto”, “Helvetica”, “Arial”, sans-serif',
-    fontWeight: '700',
-    color: '#ffffff',
-  },
-  listItem: {
-    fontFamily: 'Roboto Regular',
-    fontSize: '14px',
-    color: '#666666',
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
 }));
