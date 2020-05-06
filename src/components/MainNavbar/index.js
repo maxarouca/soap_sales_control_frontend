@@ -74,7 +74,7 @@ const MainNavbar = () => {
 
               <li className={classes.listNavItem}>
                 <Typography color="inherit">
-                  <Link className={classes.menuItem} to="/dashboard">
+                  <Link className={classes.menuItem} to="/sales">
                     VENDAS
                   </Link>
                 </Typography>
