@@ -3,27 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from 'redux/auth/auth.actions';
 
-import {
-  AppBar,
-  Toolbar,
-  Popper,
-  Grow,
-  Paper,
-  Typography,
-  InputBase,
-  MenuItem,
-  MenuList,
-  ClickAwayListener,
-  Icon,
-} from '@material-ui/core';
-
-import {
-  InsertEmoticon,
-  Cancel,
-  Search as SearchIcon,
-  Assessment,
-  ArrowDropDownCircle,
-} from '@material-ui/icons';
+import { AppBar, Toolbar, Typography, Icon } from '@material-ui/core';
 
 import { useStyles } from './styles';
 
@@ -32,21 +12,6 @@ const MainNavbar = () => {
   const dispatch = useDispatch();
 
   const name = useSelector((state) => state.auth.name);
-
-  const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef(null);
-
-  // function handleToggle() {
-  //   setOpen((prevOpen) => !prevOpen);
-  // }
-
-  function handleClose(event) {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-
-    setOpen(false);
-  }
 
   return (
     <div className={classes.root}>
@@ -101,14 +66,14 @@ const MainNavbar = () => {
           <div className={classes.sectionUser}>
             <ul className={classes.listNav}>
               <li className={classes.listNavItemUsername}>
-                <InsertEmoticon />
+                <Icon>insert_emoticon</Icon>
                 {name && <Typography color="inherit">{name}</Typography>}
               </li>
               <li
                 className={classes.listNavItem}
                 onClick={() => dispatch(logout())}
               >
-                <Cancel />
+                <Icon>cancel</Icon>
               </li>
             </ul>
           </div>
