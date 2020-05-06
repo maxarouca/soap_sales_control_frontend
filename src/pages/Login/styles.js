@@ -11,10 +11,10 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     width: '35%',
     background:
-      'linear-gradient(0deg, rgba(203,25,76,0.8), rgba(203,25,76,1)), url(assets/images/background/bg-check.png)',
-    backgroundSize: 'contain',
+      'linear-gradient(0deg, rgba(113, 226, 192,0.8), rgba(27, 155, 117,0.8)), url(assets/images/login_bg.jpg)',
+    backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
-    backgroundPositionY: 'bottom',
+    backgroundPositionX: 'center',
     padding: 20,
   },
   logo: {
@@ -40,5 +40,8 @@ export const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
     width: 350,
+    '&:hover': {
+      backgroundColor: theme.palette.primary.hover,
+    },
   },
 }));

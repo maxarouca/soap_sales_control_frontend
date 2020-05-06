@@ -45,7 +45,7 @@ const Login = (props) => {
       <aside className={classes.aside}>
         <h1>
           <img
-            src="assets/images/logos/inova_white.svg"
+            src="assets/images/logos/logo_white.png"
             alt="Logo Inova"
             className={classes.logo}
           />
