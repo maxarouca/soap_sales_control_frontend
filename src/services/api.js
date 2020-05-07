@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://cors-anywhere.herokuapp.com/http://157.245.222.156:3333',
+  baseURL: 'https://api.soapcontrol.maxarouca.com',
 });
 
 export default api;
