@@ -1,52 +1,58 @@
 import React, { useState, useEffect } from 'react';
 import { useStyles } from './styles';
-import Card from 'components/Card';
 import Modal from 'components/Modal';
+import DataTable from 'components/DataTable';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { format, subDays, subMonths, startOfMonth } from 'date-fns';
-import formatToMoney from 'util/formatToMoney';
 
 import { LinearProgress, Button } from '@material-ui/core';
 import api from '../../services/api';
 
-const Dashboard = ({ headers }) => {
+const Sales = ({ headers }) => {
   const classes = useStyles();
 
-  const [state, setState] = useState(null);
-  const [error, setError] = useState(null);
+  const [sales, setSales] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedDateIn, handleDateChangeIn] = useState(new Date('01/01/2019'));
   const [selectedDateFor, handleDateChangeFor] = useState(new Date());
 
   async function loadData(startDate, endDate) {
     setLoading(true);
-    const { data } = await api.get(
-      `/tax?startDate=${format(startDate, 'MM/dd/yyyy')}&endDate=${format(
-        endDate,
-        'MM/dd/yyyy'
-      )}&tax=6`,
-      {
-        ...headers,
+    if (startDate && endDate) {
+      const { data } = await api.get(
+        `/sales?startDate=${format(startDate, 'MM/dd/yyyy')}&endDate=${format(
+          endDate,
+          'MM/dd/yyyy'
+        )}&tax=6`,
+        {
+          ...headers,
+        }
+      );
+      if (data) {
+        if (data.message) {
+          setSales([]);
+          return setLoading(false);
+        }
+        setSales(data.sales);
+        return setLoading(false);
       }
-    );
+    }
+    const { data } = await api.get(`/sales`, {
+      ...headers,
+    });
 
     if (data) {
       if (data.message) {
-        setState({
-          rough: formatToMoney(0),
-          aliquot: formatToMoney(0),
-          tax: formatToMoney(0),
-          profit: formatToMoney(0),
-        });
+        setSales([]);
         return setLoading(false);
       }
-      setState(data);
+      setSales(data.sales);
       setLoading(false);
     }
   }
 
   useEffect(() => {
-    loadData(selectedDateIn, selectedDateFor);
+    loadData();
   }, []);
 
   const [open, setOpen] = React.useState(false);
@@ -56,6 +62,7 @@ const Dashboard = ({ headers }) => {
   };
 
   const handleClose = () => {
+    setDataToUpdate(null);
     setOpen(false);
   };
 
@@ -82,36 +89,89 @@ const Dashboard = ({ headers }) => {
     loadData(month, date);
   };
 
-  const handleSubmit = async (data, date, total) => {
-    try {
-      const newData = {
-        ...data,
-        unitary_value: data.unitary_value.replace(/\,/g, '.'),
-        date,
-        total,
-      };
-      const res = await api.post(
-        `/sales`,
-        { ...newData },
-        {
-          ...headers,
-        }
-      );
-      if (res.status === 200) {
-        setOpen(false);
+  const [dataToUpdate, setDataToUpdate] = useState(null);
 
-        loadData(selectedDateIn, selectedDateFor);
+  const receiveDataToUpdate = (data) => {
+    // console.log(data);
+    setDataToUpdate(data);
+    setOpen(true);
+  };
+
+  const handleUpdate = async (id, data, date, total) => {
+    const upData = {
+      ...data,
+      unitary_value: data.unitary_value.replace(/\,/g, '.'),
+      date,
+      total,
+    };
+    const res = await api.put(
+      `/sales/${id}`,
+      { ...upData },
+      {
+        ...headers,
       }
-    } catch (error) {
-      console.log(error.response.data);
-      setError(error.response.data);
+    );
+    if (res.status === 200) {
+      setOpen(false);
+
+      loadData();
+    }
+  };
+
+  const confirmPay = async (rowData) => {
+    const upData = {
+      ...rowData,
+      is_pay: true,
+    };
+    const res = await api.put(
+      `/sales/${rowData.id}`,
+      { ...upData },
+      {
+        ...headers,
+      }
+    );
+    if (res.status === 200) {
+      setOpen(false);
+
+      loadData();
+    }
+  };
+
+  const handleDelete = async (id) => {
+    const res = await api.delete(`/sales/${id}`, {
+      ...headers,
+    });
+    if (res.status === 200) {
+      loadData();
+    }
+  };
+
+  const handleSubmit = async (data, date, total) => {
+    const newData = {
+      ...data,
+      unitary_value: data.unitary_value.replace(/\,/g, '.'),
+
+      date,
+      total,
+    };
+    const res = await api.post(
+      `/sales`,
+      { ...newData },
+      {
+        ...headers,
+      }
+    );
+    if (res.status === 200) {
+      setOpen(false);
+
+      loadData();
     }
   };
 
   return (
     <div className={classes.root}>
       <div className={classes.headerPage}>
-        <h1>Dashboard</h1>
+        <h1>Sales</h1>
         <Button
           variant="contained"
           color="primary"
@@ -121,7 +181,15 @@ const Dashboard = ({ headers }) => {
           Nova Venda
         </Button>
       </div>
+
       <div className={classes.filters}>
+        <Button
+          variant="contained"
+          className={classes.filterButton}
+          onClick={loadData}
+        >
+          Todos
+        </Button>
         <Button
           variant="contained"
           className={classes.filterButton}
@@ -179,37 +247,17 @@ const Dashboard = ({ headers }) => {
           Filtrar
         </Button>
       </div>
+
       {loading ? (
-        <LinearProgress />
+        <LinearProgress style={{ margin: '0 25px' }} />
       ) : (
         <div className={classes.container}>
-          <Card
-            title="Total em Vendas"
-            subtitle="Tudo o que foi vendido sem nenhum desconto"
-            value={state.rough}
-            icon="shopping_cart"
-            color="0, 182, 255"
-          />
-          <Card
-            title="Gastos em produtos"
-            subtitle="Pagamento de alíquota de produtos"
-            value={state.aliquot}
-            icon="money_off"
-            color="255, 55, 0"
-          />
-          <Card
-            title="Gastos em impostos"
-            subtitle="Pagamento dos impostos devidos"
-            value={state.tax}
-            icon="money_off"
-            color="255, 153, 0"
-          />
-          <Card
-            title="Lucro no Período"
-            subtitle="Total recebido após todos os descontos"
-            value={state.profit}
-            icon="attach_money"
-            color="4, 204, 70"
+          <DataTable
+            style={{ width: '100%' }}
+            sales={sales}
+            handleDelete={handleDelete}
+            handleUpdate={receiveDataToUpdate}
+            confirmPay={confirmPay}
           />
         </div>
       )}
@@ -218,11 +266,12 @@ const Dashboard = ({ headers }) => {
           open={open}
           handleClose={handleClose}
           handleSubmit={handleSubmit}
-          error={error}
+          handleUpdate={handleUpdate}
+          dataToUpdate={dataToUpdate}
         />
       )}
     </div>
   );
 };
 
-export default Dashboard;
+export default Sales;
