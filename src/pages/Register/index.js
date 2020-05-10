@@ -1,18 +1,16 @@
 // /* eslint-disable react/prop-types */
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { TextField, Button } from '@material-ui/core';
 
-import { successLogin } from 'redux/auth/auth.actions';
 import { useStyles } from './styles';
 import api from '../../services/api';
 import { Link } from 'react-router-dom';
 
-const Login = (props) => {
+const Register = (props) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   const [values, setValues] = React.useState({
+    name: '',
     email: '',
     password: '',
   });
@@ -21,22 +19,17 @@ const Login = (props) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const handleSubmit = async (email, password) => {
-    const { data } = await api.post('/login', {
-      email,
-      password,
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { data } = await api.post('/users', {
+      ...values,
     });
 
-    if (data) {
-      dispatch(
-        successLogin({
-          ...data.user,
-          token: data.token,
-        })
-      );
+    console.log(data);
 
+    if (data) {
       props.history.push({
-        pathname: '/dashboard',
+        pathname: '/',
       });
     }
   };
@@ -52,13 +45,22 @@ const Login = (props) => {
           />
         </h1>
       </aside>
-      <main className={classes.main}>
-        <h1 className={classes.title}>Entrar</h1>
+      <form className={classes.main} onSubmit={handleSubmit}>
+        <h1 className={classes.title}>Registrar</h1>
+        <TextField
+          id="outlined-name"
+          label="Nome"
+          className={classes.textField}
+          value={values.name}
+          onChange={handleChange('name')}
+          margin="normal"
+          variant="outlined"
+        />
         <TextField
           id="outlined-name"
           label="Email"
           className={classes.textField}
-          value={values.name}
+          value={values.email}
           onChange={handleChange('email')}
           margin="normal"
           variant="outlined"
@@ -78,16 +80,16 @@ const Login = (props) => {
           color="primary"
           size="large"
           className={classes.button}
-          onClick={() => handleSubmit(values.email, values.password)}
+          onClick={handleSubmit}
         >
           Entrar
         </Button>
         <p>
-          Ainda não tem usuário? <Link to="/register">Registre-se agora</Link>
+          Já está registrado? <Link to="/">Entrar</Link>
         </p>
-      </main>
+      </form>
     </div>
   );
 };
 
-export default Login;
+export default Register;
