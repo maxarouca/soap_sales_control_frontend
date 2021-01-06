@@ -10,7 +10,7 @@
     "@material-ui/styles": "4.9.13",
     "@unform/core": "2.1.0",
     "@unform/web": "2.1.0",
-    "axios": "0.19.2",
+    "axios": "0.21.1",
     "date-fns": "2.12.0",
     "date-fns-timezone": "0.1.4",
     "date-fns-tz": "1.0.10",
